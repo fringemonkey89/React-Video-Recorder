@@ -1,8 +1,12 @@
 import { useState, useRef } from "react";
-
+const mimeType = 'audio/webm'
 const AudioRecorder = () => {
     const [permission, setPermission] = useState(false)
+    const mediaRecorder = useRef(null)
+    const [recordingStatus, setRecordingStatus] = useState('inactive')
     const [stream, setStream] = useState(null)
+    const [audioChunks, setAudioChunks] = useState([]);
+    const [audio, setAudio] = useState(null)
 
     const getMicrophonePermission = async () => {
         if ('MediaRecorder' in window) {
@@ -20,6 +24,25 @@ const AudioRecorder = () => {
             alert('the mediarecorder api is not suppported in your browser')
         }
     };
+
+    const startRecording = async () => {
+        setRecordingStatus("recording");
+        //create new media recorder instance using the stream
+        const media = new MediaRecorder(stream, {type: mimeType});
+        // set the mediarecorder instance to the mediaRecorder ref
+        mediaRecorder.current = media;
+        //invokes the start method to start the recording prociess
+        mediaRecorder.current.start();
+        let localAudioChunks = [];
+        mediaRecorder.current.ondataavailable = (event) => {
+            if (typeof event.data === 'undefined') return;
+            if (event.data.size === 0) return;
+            localAudioChunks.push(event.data)
+        }
+        setAudioChunks(localAudioChunks)
+    }
+
+
 
     return (
         <div>
