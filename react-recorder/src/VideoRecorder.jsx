@@ -15,7 +15,7 @@ const VideoRecorder = () => {
         if ('MediaRecorder' in window) {
             try {
                 const videoConstraints = {
-                    audio: true,
+                    audio: false,
                     video: true,
                 };
                 const audioConstraints = {audio: true}
@@ -81,13 +81,31 @@ const VideoRecorder = () => {
                             get camera
                         </button>
                     ): null }
-                    {permission ? (
-                        <button type="button">
+                    {permission && recordingStatus === 'inactive' ? (
+                        <button onClick={startRecording} type="button">
                             Record
+                        </button>
+                    ): null}
+                    {recordingStatus === 'recording' ? (
+                        <button onClick={stopRecording} type="button">
+                            Stop Recording
                         </button>
                     ): null}
                 </div>
             </main>
+            <div className="video-player">
+                {!recordedVideo ? (
+                    <video ref={liveVideoFeed} autoPlay className="live-player"></video>
+                ): null}
+                {recordedVideo ? (
+                    <div className="recorded-player">
+                        <video className="recorded" src={recordedVideo} controls ></video>
+                        <a download href={recordedVideo}>
+                            Download Recording
+                        </a>
+                    </div>
+                    ): null}
+            </div>
         </div>
     )
 
