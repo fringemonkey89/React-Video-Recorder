@@ -1,10 +1,10 @@
 import { useState, useRef } from "react";
 
-const AudioRecorder = () => {
+const VideoRecorder = () => {
     const [permission, setPermission] = useState(false)
     const [stream, setStream] = useState(null)
 
-    const getMicrophonePermission = async () => {
+    const getCameraPermission = async () => {
         if ('MediaRecorder' in window) {
             try {
                 const streamData = await navigator.mediaDevices.getUserMedia({
@@ -23,12 +23,12 @@ const AudioRecorder = () => {
 
     return (
         <div>
-            <h2>Audio Recorder</h2>
+            <h2>Video Recorder</h2>
             <main>
-                <div className="audio-controls">
+                <div className="video-controls">
                     {permission ? (
-                        <button onClick={getMicrophonePermission} type="button">
-                            get microphone
+                        <button onClick={getCameraPermission} type="button">
+                            get camera
                         </button>
                     ): null }
                     {permission ? (
@@ -43,7 +43,4 @@ const AudioRecorder = () => {
 
 }
 
-export default AudioRecorder;
-
-// receives microphone permissions from the browser using the getmicrophonepermission function
-// sets mediastream received from the navigator.mediaDevices.getUserMedia function to the stream state variable
+export default VideoRecorder;
