@@ -67,12 +67,25 @@ const AudioRecorder = () => {
                             get microphone
                         </button>
                     ): null }
-                    {permission ? (
-                        <button type="button">
-                            Record
+                    {permission && recordingStatus === 'inactive' ? (
+                        <button onClick={startRecording} type="button">
+                            Start Recording
+                        </button>
+                    ): null}
+                    {recordingStatus === 'recording' ? (
+                        <button onClick={stopRecording} type="button">
+                            Stop Recording
                         </button>
                     ): null}
                 </div>
+                {audio ? (
+                    <div className="audio-container">
+                        <audio src={audio} constrols></audio>
+                        <a download href={audio}>
+                            Download Recording
+                        </a>
+                    </div>
+                ): null}
             </main>
         </div>
     )
