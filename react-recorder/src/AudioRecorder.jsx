@@ -62,7 +62,7 @@ const AudioRecorder = () => {
             <h2>Audio Recorder</h2>
             <main>
                 <div className="audio-controls">
-                    {permission ? (
+                    {!permission ? (
                         <button onClick={getMicrophonePermission} type="button">
                             get microphone
                         </button>
@@ -80,7 +80,7 @@ const AudioRecorder = () => {
                 </div>
                 {audio ? (
                     <div className="audio-container">
-                        <audio src={audio} constrols></audio>
+                        <audio src={audio} controls></audio>
                         <a download href={audio}>
                             Download Recording
                         </a>
