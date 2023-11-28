@@ -42,6 +42,19 @@ const AudioRecorder = () => {
         setAudioChunks(localAudioChunks)
     }
 
+    const stopRecording = () => {
+        setRecordingStatus('inactive');
+        //stops the recording instance
+        mediaRecorder.current.stop()
+        mediaRecorder.current.onstop = () => {
+            // create a blob file from the audiochunks data
+            const audioBlob = new Blob(audioChunks, {type: mimeType})
+            //creates a playable url from the blob file
+            const audioUrl = URL.createObjectURL(audioBlob)
+            setAudio(audioUrl);
+            setAudioChunks([])
+        }
+    }
 
 
     return (
